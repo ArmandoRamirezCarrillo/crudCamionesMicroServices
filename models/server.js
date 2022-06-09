@@ -11,15 +11,22 @@ class Server {
         this.port = process.env.PORT;
 
         this.paths = {
-            // auth: '/api/auth'
+            camiones: '/api/camiones'
         }
 
         //Conectar a la base de datos
         this.conectarDB();
+
+        //Rutas
+        this.routes();
     }
 
     async conectarDB() {
         await dbConnection();
+    }
+
+    routes() {
+        this.app.use(this.paths.camiones, require('../routers/camiones'));
     }
 
     listen() {
