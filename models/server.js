@@ -17,12 +17,21 @@ class Server {
         //Conectar a la base de datos
         this.conectarDB();
 
+        this.middlewares();
+
         //Rutas
         this.routes();
     }
 
     async conectarDB() {
         await dbConnection();
+    }
+
+    middlewares() {
+
+        //Parseo y lectura del body
+        this.app.use(express.json());
+
     }
 
     routes() {
