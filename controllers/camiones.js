@@ -40,7 +40,20 @@ const obtenerCamiones = async (req, res = response) => {
     });
 }
 
+const obtenerCamion = async (req, res = response) => {
+ 
+    const { id } = req.params;
+
+    const camion = await Camion.findById(id).populate('nombre');
+
+    res.status(200).json({
+        data: camion,
+        msg: 'Obteniendo un camion'
+    });
+}
+
 module.exports = {
     obtenerCamiones,
-    crearCamion
+    crearCamion,
+    obtenerCamion
 }
