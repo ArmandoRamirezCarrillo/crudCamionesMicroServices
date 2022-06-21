@@ -30,9 +30,11 @@ const crearCamion = async (req, res = response) => {
 }
 
 const obtenerCamiones = async (req, res = response) => {
-    
+
+    const camionesActivos = {status: true};
+
     //Obtiene todos los camiones
-    const camiones = await Camion.find();
+    const camiones = await Camion.find(camionesActivos);
 
     res.status(200).json({
         data: camiones,
@@ -44,7 +46,7 @@ const obtenerCamion = async (req, res = response) => {
  
     const { id } = req.params;
 
-    const camion = await Camion.findById(id).populate('nombre');
+    const camion = await Camion.findById(id);
 
     res.status(200).json({
         data: camion,
@@ -52,8 +54,33 @@ const obtenerCamion = async (req, res = response) => {
     });
 }
 
+const actualizaCamion = async (req, res = response) => {
+    const { id } = req.params;
+    const dataCamion = req.body;
+
+    const camion = await Camion.findByIdAndUpdate(id, dataCamion, {new: true});
+    
+    res.status(200).json({
+        data: camion,
+        msg:'Camion Actualizado'
+    });
+}
+
+const borrarCamion = async (req, res = response) => {
+    const { id } = req.params;
+
+    const camion = await Camion.findByIdAndUpdate(id, {status: false}, {new: true});
+
+    res.status(200).json({
+        data: camion,
+        msg:'Camion Borrado'
+    });
+}
+
 module.exports = {
     obtenerCamiones,
     crearCamion,
-    obtenerCamion
+    obtenerCamion,
+    actualizaCamion,
+    borrarCamion
 }
